@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NetworkAndroid</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="ssid">BSSID</string>
+    <string name="getlocation">Get location</string>
+    <string name="testJSON">Test JSON</string>
+</resources>
