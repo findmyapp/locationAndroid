@@ -2,8 +2,7 @@ package accenture.networkandroid;
 
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.location.Location;
@@ -51,7 +50,7 @@ public class WifiPositionActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				testJSONArray();
+				testTOJson();
 			}
 		});
 		getLocationButton.setOnClickListener(new View.OnClickListener() {
@@ -104,29 +103,27 @@ public class WifiPositionActivity extends Activity {
 	}
 
 	// Converts a list of scanresults to jsonArray
-	public JSONArray writeListToJSON(List<ScanResult> results) {
-		JSONArray jsonArray = new JSONArray();
-		for (ScanResult singleResult : results) {
-			jsonArray.put(singleResult);
+	public String writeListToJSON(List<ScanResult> results) {
+		Gson gson = new Gson();
+		if (scanList == null) {
+			updateBSSID();
 		}
-		return jsonArray;
+			SendProtocol protocol = new SendProtocol(scanList);
+			String json = gson.toJson(protocol);
+			return json;
+	}
+	
+	public void readFromJSON(String json) {
+		Gson gson = new Gson();
+		SendProtocol protocol = gson.fromJson(json, SendProtocol.class);
+		for(int i=0; i<protocol.getSignalStrength().length; i++){
+			Log.e("From JSON ", protocol.getBssid()[i]+" "+protocol.getSignalStrength()[i]);
+		}
 	}
 
 	// tests if jsonarray works
-	public void testJSONArray() {
-		if (scanList == null) {
-			updateBSSID();
-		} else {
-			JSONArray test = writeListToJSON(scanList);
-			for (int i = 0; i < test.length(); i++) {
-				try {
-					ScanResult scan = (ScanResult) test.get(i);
-					Log.e("TESTING JSON ARRAY", scan.BSSID);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+	public void testTOJson() {	
+		String json = writeListToJSON(scanList);
+		readFromJSON(json);		
 	}
 }
