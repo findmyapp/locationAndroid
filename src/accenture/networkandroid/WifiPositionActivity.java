@@ -108,16 +108,22 @@ public class WifiPositionActivity extends Activity {
 		if (scanList == null) {
 			updateBSSID();
 		}
-			SendProtocol protocol = new SendProtocol(scanList);
-			String json = gson.toJson(protocol);
+			SendProtocol[] protocolArray = new SendProtocol[scanList.size()];
+			int counter = 0;
+			for (ScanResult result : scanList) {
+				SendProtocol protocol = new SendProtocol(result.BSSID, result.level);
+				protocolArray[counter] = protocol;
+				counter++;
+			}
+			String json = gson.toJson(protocolArray);
 			return json;
 	}
 	
 	public void readFromJSON(String json) {
 		Gson gson = new Gson();
-		SendProtocol protocol = gson.fromJson(json, SendProtocol.class);
-		for(int i=0; i<protocol.getSignalStrength().length; i++){
-			Log.e("From JSON ", protocol.getBssid()[i]+" "+protocol.getSignalStrength()[i]);
+		SendProtocol[] protocol = gson.fromJson(json, SendProtocol[].class);
+		for(int i=0; i<protocol.length; i++){
+			Log.e("From JSON ", protocol[i].getBssid()+" "+protocol[i].getSignalStrength());
 		}
 	}
 
@@ -125,5 +131,6 @@ public class WifiPositionActivity extends Activity {
 	public void testTOJson() {	
 		String json = writeListToJSON(scanList);
 		readFromJSON(json);		
+		Log.e("STRINGTEST", json);
 	}
 }

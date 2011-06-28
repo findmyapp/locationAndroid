@@ -6,30 +6,32 @@ import android.net.wifi.ScanResult;
 
 public class SendProtocol {
 	
-	private String[] bssid;
-	private int[] signalStrength;
+	private String bssid;
+	private int signalStrength;
 	
-	public SendProtocol(List<ScanResult> results) {
-		int sizeOfList = 0;
-		sizeOfList = results.size();
-		bssid = new String[sizeOfList];
-		signalStrength = new int[sizeOfList];
+	public SendProtocol(String bssid, int signalStrength) {
+//		int sizeOfList = 0;
+//		sizeOfList = results.size();
+//		bssid = new String[sizeOfList];
+//		signalStrength = new int[sizeOfList];
+		this.bssid = bssid;
+		this.signalStrength = signalStrength;
 		
-		int counter = 0;
-		for (ScanResult result : results) {
-			
-			bssid[counter]= result.BSSID;
-			signalStrength[counter]= result.level;
-			counter++;
+//		int counter = 0;
+//		for (ScanResult result : results) {
+//			
+//			bssid[counter]= result.BSSID;
+//			signalStrength[counter]= result.level;
+//			counter++;
 			
 		}
-	}
+//	}
 
-	public String[] getBssid() {
+	public String getBssid() {
 		return bssid;
 	}
 
-	public int[] getSignalStrength() {
+	public int getSignalStrength() {
 		return signalStrength;
 	}
 
