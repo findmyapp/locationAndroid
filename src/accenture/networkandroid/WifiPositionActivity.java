@@ -16,8 +16,9 @@ import com.google.gson.Gson;
 
 /**
  * Activity for position. Needs a position handler to have any use
- * @author audun.sorheim, cecilie haugstvedt
- *
+ * 
+ * @author audun.sorheim, cecilie haugstvedt, kristin astebol
+ * 
  */
 
 public class WifiPositionActivity extends Activity {
@@ -54,12 +55,13 @@ public class WifiPositionActivity extends Activity {
 				getPosition();
 			}
 		});
-		populatePositionDataButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				updateLocation();
-				updateBSSID();
-			}
-		});
+		populatePositionDataButton
+				.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						updateLocation();
+						updateBSSID();
+					}
+				});
 	}
 
 	// Updates Latitude and Longitude. Not used
@@ -71,14 +73,14 @@ public class WifiPositionActivity extends Activity {
 			Log.e("NetworkAndroidActivity",
 					"Latitude: " + currentLocation.getLatitude()
 							+ " Longitude: " + currentLocation.getLongitude());
-			
+
 			longitudeTextView.setText("" + currentLocation.getLongitude());
 			latitudeTextView.setText("" + currentLocation.getLatitude());
 		}
 	}
 
 	/**
-	 * Update the 
+	 * Update the
 	 */
 	public void updateBSSID() {
 		wifiPositionHandler.scanForSSID();
@@ -107,7 +109,9 @@ public class WifiPositionActivity extends Activity {
 
 	/**
 	 * Converts a list of scanResults to a json string
-	 * @param results The list of ScanResult
+	 * 
+	 * @param results
+	 *            The list of ScanResult
 	 * @return json-"string"
 	 */
 	public String writeListToJSON(List<ScanResult> results) {
@@ -115,60 +119,70 @@ public class WifiPositionActivity extends Activity {
 		if (scanList == null) {
 			updateBSSID();
 		}
-			Signal[] protocolArray = new Signal[scanList.size()];
-			int counter = 0;
-			for (ScanResult result : scanList) {
-				Signal protocol = new Signal(result.BSSID, result.level);
-				protocolArray[counter] = protocol;
-				counter++;
-			}
-			String json = gson.toJson(protocolArray);
-			return json;
+		Signal[] protocolArray = new Signal[scanList.size()];
+		int counter = 0;
+		for (ScanResult result : scanList) {
+			Signal protocol = new Signal(result.BSSID, result.level);
+			protocolArray[counter] = protocol;
+			counter++;
+		}
+		String json = gson.toJson(protocolArray);
+		return json;
 	}
-	
+
 	/**
 	 * Finds the current Room you are in
+	 * 
 	 * @return
 	 */
 	public Room getPosition() {
 		Room currentRoom = null;
+		RestClient restClient;
+
+		if (scanList == null) {
+			updateLocation();
+			updateBSSID();
+		}
+
 		if (scanList != null) {
-		RestClient restClient = new RestClient(this);
-		String json = writeListToJSON(scanList);
-		currentRoom = restClient.getRoom(json);
-		}
-		if (currentRoom != null) {
-			Toast.makeText(this,
-					currentRoom.getroomName() + " : " + currentRoom.getroomId(),
-					Toast.LENGTH_SHORT).show();
-		}
-		else {
-			Toast.makeText(this,
-					"FAIL !",
-					Toast.LENGTH_SHORT).show();
+			restClient = new RestClient(this);
+			String json = writeListToJSON(scanList);
+			currentRoom = restClient.getRoom(json);
+			if (currentRoom != null) {
+				printToScreen(currentRoom.getroomName() + " : "
+						+ currentRoom.getroomId());
+			}
+			else {
+				printToScreen("No room found");
+			}
 		}
 		return currentRoom;
-		
 	}
-	
+
 	/**
 	 * Deserialize a jsonSignal (string) to readable data in LogCat
-	 * @param jsonSignal 
+	 * 
+	 * @param jsonSignal
 	 */
 	public void readFromJSON(String jsonSignal) {
 		Gson gson = new Gson();
 		Signal[] signal = gson.fromJson(jsonSignal, Signal[].class);
-		for(int i=0; i<signal.length; i++){
-			Log.e("From JSON ", signal[i].getBssid()+" "+signal[i].getSignalStrength());
+		for (int i = 0; i < signal.length; i++) {
+			Log.e("From JSON ",
+					signal[i].getBssid() + " " + signal[i].getSignalStrength());
 		}
 	}
 
 	/**
 	 * Tests writeListToJSON and readFromJSON
 	 */
-	public void testToFromJSON() {	
+	public void testToFromJSON() {
 		String json = writeListToJSON(scanList);
-		readFromJSON(json);		
+		readFromJSON(json);
 		Log.e("STRINGTEST", json);
+	}
+
+	public void printToScreen(String text) {
+		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
 }
