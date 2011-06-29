@@ -4,6 +4,6 @@
     <string name="longitude">Longitude</string>
     <string name="latitude">Latitude</string>
     <string name="ssid">BSSID</string>
-    <string name="getlocation">Get location</string>
-    <string name="testJSON">Test JSON</string>
+    <string name="populateLocationData">Populate Data</string>
+    <string name="getRoom">Get Room</string>
 </resources>

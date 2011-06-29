@@ -25,14 +25,14 @@
 <EditText android:id="@+id/editText3" android:layout_height="wrap_content" android:layout_width="match_parent" android:inputType="numberDecimal">
 </EditText>
 <Button 
-	android:text="@string/getlocation" 
+	android:text="@string/populateLocationData" 
 	android:id="@+id/button1" 
 	android:layout_height="wrap_content" 
 	android:layout_width="match_parent"
 	android:gravity="center|center_vertical|bottom" >
 	</Button>
 <Button 
-	android:text="@string/testJSON" 
+	android:text="@string/getRoom" 
 	android:id="@+id/button2" 
 	android:layout_height="wrap_content" 
 	android:layout_width="match_parent" 

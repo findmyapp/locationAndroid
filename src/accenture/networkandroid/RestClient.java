@@ -30,8 +30,8 @@ public class RestClient {
 
 	}
 
-	public void sendSignal(String json) {
-
+	public Room sendSignal(String json) {
+		return null;
 	}
 
 	//Bruk i sendSignal eller slett ?

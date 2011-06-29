@@ -3,6 +3,7 @@ package accenture.networkandroid;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import android.app.Activity;
 import android.location.Location;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Activity for position. Needs a position handler to have any use
@@ -21,7 +23,7 @@ import android.widget.TextView;
 
 public class WifiPositionActivity extends Activity {
 
-	private Button getLocationButton, testJSON;
+	private Button populatePositionDataButton, getCurrentRoomButton;
 	private TextView longitudeTextView, latitudeTextView, ssidTextView;
 	private ScanResult scanResult;
 	private Location currentLocation = null;
@@ -38,22 +40,22 @@ public class WifiPositionActivity extends Activity {
 		longitudeTextView = (TextView) findViewById(R.id.editText1);
 		latitudeTextView = (TextView) findViewById(R.id.editText2);
 		ssidTextView = (TextView) findViewById(R.id.editText3);
-		getLocationButton = (Button) findViewById(R.id.button1);
-		testJSON = (Button) findViewById(R.id.button2);
+		populatePositionDataButton = (Button) findViewById(R.id.button1);
+		getCurrentRoomButton = (Button) findViewById(R.id.button2);
 
 		// Init Positionhandler and scan for ssid
 		wifiPositionHandler = new WifiPositionHandler(this);
 		wifiPositionHandler.scanForSSID();
 
 		// Sets listener on buttons
-		testJSON.setOnClickListener(new View.OnClickListener() {
+		getCurrentRoomButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				testTOJson();
+				getPosition();
 			}
 		});
-		getLocationButton.setOnClickListener(new View.OnClickListener() {
+		populatePositionDataButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				updateLocation();
 				updateBSSID();
@@ -76,7 +78,9 @@ public class WifiPositionActivity extends Activity {
 		}
 	}
 
-	// Updates BSSID
+	/**
+	 * Update the 
+	 */
 	public void updateBSSID() {
 		wifiPositionHandler.scanForSSID();
 		if (wifiPositionHandler.getScanList() == null) {
@@ -102,7 +106,11 @@ public class WifiPositionActivity extends Activity {
 		}
 	}
 
-	// Converts a list of scanresults to jsonArray
+	/**
+	 * Converts a list of scanResults to a json string
+	 * @param results The list of ScanResult
+	 * @return json-"string"
+	 */
 	public String writeListToJSON(List<ScanResult> results) {
 		Gson gson = new Gson();
 		if (scanList == null) {
@@ -119,16 +127,47 @@ public class WifiPositionActivity extends Activity {
 			return json;
 	}
 	
-	public void readFromJSON(String json) {
+	/**
+	 * Finds the current Room you are in
+	 * @return
+	 */
+	public Room getPosition() {
+		Room currentRoom = null;
+		if (scanList != null) {
+		RestClient restClient = new RestClient(this);
+		String json = writeListToJSON(scanList);
+		currentRoom = restClient.sendSignal(json);
+		}
+		if (currentRoom != null) {
+			Toast.makeText(this,
+					currentRoom.getroomName() + " : " + currentRoom.getroomId(),
+					Toast.LENGTH_SHORT).show();
+		}
+		else {
+			Toast.makeText(this,
+					"FAIL !",
+					Toast.LENGTH_SHORT).show();
+		}
+		return currentRoom;
+		
+	}
+	
+	/**
+	 * Deserialize a jsonSignal (string) to readable data in LogCat
+	 * @param jsonSignal 
+	 */
+	public void readFromJSON(String jsonSignal) {
 		Gson gson = new Gson();
-		Signal[] protocol = gson.fromJson(json, Signal[].class);
-		for(int i=0; i<protocol.length; i++){
-			Log.e("From JSON ", protocol[i].getBssid()+" "+protocol[i].getSignalStrength());
+		Signal[] signal = gson.fromJson(jsonSignal, Signal[].class);
+		for(int i=0; i<signal.length; i++){
+			Log.e("From JSON ", signal[i].getBssid()+" "+signal[i].getSignalStrength());
 		}
 	}
 
-	// tests if jsonarray works
-	public void testTOJson() {	
+	/**
+	 * Tests writeListToJSON and readFromJSON
+	 */
+	public void testToFromJSON() {	
 		String json = writeListToJSON(scanList);
 		readFromJSON(json);		
 		Log.e("STRINGTEST", json);
