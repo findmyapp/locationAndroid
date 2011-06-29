@@ -18,55 +18,61 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-public class RestClient extends Activity {
-    
-    String url = "";
-    
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        
-        InputStream source = retrieveStream(url);
-        
-        Gson gson = new Gson();
-        
-        Reader reader = new InputStreamReader(source);
-        
-        Room room = gson.fromJson(reader, Room.class);
-        
-        Toast.makeText(this, room.getroomName() + " : " + room.getroomId(), Toast.LENGTH_SHORT).show();
-        
-    }
-    
-    private InputStream retrieveStream(String url) {
-        
-        DefaultHttpClient client = new DefaultHttpClient();    
-        HttpGet getRequest = new HttpGet(url);
-          
-        try {
-           
-           HttpResponse getResponse = client.execute(getRequest);
-           final int statusCode = getResponse.getStatusLine().getStatusCode();
-           
-           if (statusCode != HttpStatus.SC_OK) { 
-              Log.w(getClass().getSimpleName(), 
-                  "Error " + statusCode + " for URL " + url); 
-              return null;
-           }
+public class RestClient {
 
-           HttpEntity getResponseEntity = getResponse.getEntity();
-           return getResponseEntity.getContent();
-           
-        } 
-        catch (IOException e) {
-           getRequest.abort();
-           Log.w(getClass().getSimpleName(), "Error for URL " + url, e);
-        }
-        
-        return null;
-        
-     }
-    
+	private String url = "";
+	private Activity activity;
+	private Gson gson;
+
+	public RestClient(Activity activity) {
+		this.activity = activity;
+		gson = new Gson();
+
+	}
+
+	public void sendSignal(String json) {
+
+	}
+
+	//Bruk i sendSignal eller slett ?
+	private Room retrieveStream(String url) {
+		InputStream source;
+
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpGet getRequest = new HttpGet(url);
+
+		try {
+
+			HttpResponse getResponse = client.execute(getRequest);
+			final int statusCode = getResponse.getStatusLine().getStatusCode();
+
+			if (statusCode != HttpStatus.SC_OK) {
+				Log.w(getClass().getSimpleName(), "Error " + statusCode
+						+ " for URL " + url);
+				return null;
+			}
+
+			HttpEntity getResponseEntity = getResponse.getEntity();
+
+			source = getResponseEntity.getContent();
+			Reader reader = new InputStreamReader(source);
+			Room room = gson.fromJson(reader, Room.class);
+			Toast.makeText(activity,
+					room.getroomName() + " : " + room.getroomId(),
+					Toast.LENGTH_SHORT).show();
+			return room;
+
+		} catch (IOException e) {
+			getRequest.abort();
+			Log.w(getClass().getSimpleName(), "Error for URL " + url, e);
+		}
+
+		return null;
+	}
+	
+	public Room deserializeRoom(String jsonRoom) {
+		Room room = gson.fromJson(jsonRoom, Room.class);
+		return room;
+	}
+
 }
