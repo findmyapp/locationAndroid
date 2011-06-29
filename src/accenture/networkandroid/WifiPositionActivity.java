@@ -61,7 +61,7 @@ public class WifiPositionActivity extends Activity {
 		});
 	}
 
-	// Updates Latitude and Longitude
+	// Updates Latitude and Longitude. Not used
 	public void updateLocation() {
 		if (wifiPositionHandler.getCurrentLocation() == null) {
 			Log.e("Location", "Location is null");
@@ -108,10 +108,10 @@ public class WifiPositionActivity extends Activity {
 		if (scanList == null) {
 			updateBSSID();
 		}
-			SendProtocol[] protocolArray = new SendProtocol[scanList.size()];
+			Signal[] protocolArray = new Signal[scanList.size()];
 			int counter = 0;
 			for (ScanResult result : scanList) {
-				SendProtocol protocol = new SendProtocol(result.BSSID, result.level);
+				Signal protocol = new Signal(result.BSSID, result.level);
 				protocolArray[counter] = protocol;
 				counter++;
 			}
@@ -121,7 +121,7 @@ public class WifiPositionActivity extends Activity {
 	
 	public void readFromJSON(String json) {
 		Gson gson = new Gson();
-		SendProtocol[] protocol = gson.fromJson(json, SendProtocol[].class);
+		Signal[] protocol = gson.fromJson(json, Signal[].class);
 		for(int i=0; i<protocol.length; i++){
 			Log.e("From JSON ", protocol[i].getBssid()+" "+protocol[i].getSignalStrength());
 		}

@@ -72,7 +72,7 @@ public class WifiPositionHandler {
 
 	}
 	
-	//Scans for Wifi SSIDs / Signal Strength
+	//Scans for Wifi BSSIDs / Signal Strength
 	public void scanForSSID() {
 		IntentFilter i = new IntentFilter();
 		i.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
