@@ -13,8 +13,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.net.wifi.ScanResult;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -67,21 +67,29 @@ public class RestClient {
 	}
 
 	public Room getRoom(String json){
-		InputStream source = retrieveStream(url);
+		json = getSampleData(); //for testing
+		InputStream source = retrieveStream(json);
 
 		Gson gson = new Gson();
 
 		Reader reader = new InputStreamReader(source);
 		Room room = gson.fromJson(reader, Room.class);
-//		Toast.makeText(activity,
-//				room.getroomName() + " : " + room.getroomId(),
-//				Toast.LENGTH_SHORT).show();
+
 		return room;
 	}
 	
 	public Room deserializeRoom(String jsonRoom) {
 		Room room = gson.fromJson(jsonRoom, Room.class);
 		return room;
+	}
+	
+	private String getSampleData(){
+		Gson gson = new Gson();
+		Signal[] protocolArray = new Signal[2];
+		protocolArray[0] = new Signal("Strossa",-80);
+		protocolArray[1] = new Signal("Storsalen",-20);
+		String json = gson.toJson(protocolArray);
+		return json;
 	}
 
 }
