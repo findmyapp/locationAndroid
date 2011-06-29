@@ -13,14 +13,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.net.wifi.ScanResult;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 public class RestClient {
 
-	private String url = "http://localhost:8080/findmyapp/position/";
+	private String url = "http://10.0.2.2:8080/findmyapp/position/"; // localhost on emulator
 	private Gson gson;
 
 	public RestClient() {
@@ -38,7 +39,7 @@ public class RestClient {
 			request.setHeader("Accept", "application/json");
 			request.setHeader("Content-type", "application/json");
 		} catch (UnsupportedEncodingException e) {
-			Log.w(getClass().getSimpleName(), "Could not create entity from string: " + json, e);
+			Log.e(getClass().getSimpleName(), "Could not create entity from string: " + json, e);
 			e.printStackTrace();
 		}
 
@@ -48,7 +49,7 @@ public class RestClient {
 			final int statusCode = getResponse.getStatusLine().getStatusCode();
 
 			if (statusCode != HttpStatus.SC_OK) { 
-				Log.w(getClass().getSimpleName(), 
+				Log.e(getClass().getSimpleName(), 
 						"Error " + statusCode + " for URL " + url); 
 				return null;
 			}
@@ -59,7 +60,7 @@ public class RestClient {
 		} 
 		catch (IOException e) {
 			request.abort();
-			Log.w(getClass().getSimpleName(), "Error for URL " + url, e);
+			Log.e(getClass().getSimpleName(), "Error for URL " + url, e);
 		}
 
 		return null;
@@ -67,13 +68,27 @@ public class RestClient {
 	}
 
 	public Room getRoom(String json){
+		
+		Room room = null;
 		json = getSampleData(); //for testing
 		InputStream source = retrieveStream(json);
 
 		Gson gson = new Gson();
-
-		Reader reader = new InputStreamReader(source);
-		Room room = gson.fromJson(reader, Room.class);
+		if (source != null){
+			Log.e(getClass().getSimpleName(), "source is not null :) ");
+			Reader reader = new InputStreamReader(source);
+			
+			JsonParser parser = new JsonParser();
+			JsonElement jsonElement = parser.parse(reader);
+			room = gson.fromJson(jsonElement.getAsJsonObject().get("room"), Room.class);
+			
+			if(room == null) {
+				Log.e(getClass().getSimpleName(), "Cannot parse json to room :(");
+			}
+			
+		} else {
+			Log.e(getClass().getSimpleName(), "source is null :(");
+		}
 
 		return room;
 	}
