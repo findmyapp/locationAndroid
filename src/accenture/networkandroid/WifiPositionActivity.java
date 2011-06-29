@@ -2,9 +2,6 @@ package accenture.networkandroid;
 
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 import android.app.Activity;
 import android.location.Location;
 import android.net.wifi.ScanResult;
@@ -14,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 /**
  * Activity for position. Needs a position handler to have any use
@@ -136,7 +135,7 @@ public class WifiPositionActivity extends Activity {
 		if (scanList != null) {
 		RestClient restClient = new RestClient(this);
 		String json = writeListToJSON(scanList);
-		currentRoom = restClient.sendSignal(json);
+		currentRoom = restClient.getRoom(json);
 		}
 		if (currentRoom != null) {
 			Toast.makeText(this,
