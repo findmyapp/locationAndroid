@@ -26,7 +26,6 @@ import android.util.Log;
 
 public class WifiPositionHandler {
 
-	private LocationManager locationManager;
 	private Location currentLocation;
 	private Activity activity;
 	private List<ScanResult> scanList;
@@ -34,51 +33,6 @@ public class WifiPositionHandler {
 	public WifiPositionHandler(Activity a) {
 		this.activity = a;
 		scanList = null;
-		// Acquire a reference to the system Location Manager
-		locationManager = (LocationManager) activity
-				.getSystemService(Context.LOCATION_SERVICE);
-		Log.e("LocationManager",
-				"LM is not null ?:" + locationManager.equals(null));
-
-		currentLocation = locationManager
-				.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-		locationManager.requestLocationUpdates(
-				LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-	}
-
-	// Define a listener that responds to location updates
-	LocationListener locationListener = new LocationListener() {
-		public void onLocationChanged(Location location) {
-			// Called when a new location is found by the network location
-			// provider.
-			makeUseOfNewLocation(location);
-		}
-
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-		}
-
-		public void onProviderEnabled(String provider) {
-		}
-
-		public void onProviderDisabled(String provider) {
-		}
-	};
-
-	public Location getCurrentLocation() {
-		return currentLocation;
-	}
-
-	public void makeUseOfNewLocation(Location location) {
-		if (location == null) {
-			Log.e("Location", "Location is null");
-		} else {
-			Log.e("NetworkAndroidActivity",
-					"Latitude: " + location.getLatitude() + " Longitude: "
-							+ location.getLongitude());
-			currentLocation = location;
-		}
-
 	}
 
 	// Scans for Wifi BSSIDs / Signal Strength
@@ -124,7 +78,6 @@ public class WifiPositionHandler {
 			String json = writeListToJSON(scanList);
 //			restClient = new RestClient();
 //			currentRoom = restClient.getRoom(json);
-
 		}
 		return dummy;
 	}

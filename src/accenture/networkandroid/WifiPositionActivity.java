@@ -69,29 +69,31 @@ public class WifiPositionActivity extends Activity {
 				});
 	}
 
-	// Updates Latitude and Longitude. Not used
-	public void updateLocation() {
-		if (wifiPositionHandler.getCurrentLocation() == null) {
-			Log.e("Location", "Location is null");
-		} else {
-			currentLocation = wifiPositionHandler.getCurrentLocation();
-			Log.e("NetworkAndroidActivity",
-					"Latitude: " + currentLocation.getLatitude()
-							+ " Longitude: " + currentLocation.getLongitude());
-
-			longitudeTextView.setText("" + currentLocation.getLongitude());
-			latitudeTextView.setText("" + currentLocation.getLatitude());
-		}
-	}
+//	/**
+//	 * Gets latitude and longitude, and sets the non existing textviews.
+//	 */
+//	public void updateLocation() {
+//		if (wifiPositionHandler.getCurrentLocation() == null) {
+//			Log.e("Location", "Location is null");
+//		} else {
+//			currentLocation = wifiPositionHandler.getCurrentLocation();
+//			Log.e("NetworkAndroidActivity",
+//					"Latitude: " + currentLocation.getLatitude()
+//							+ " Longitude: " + currentLocation.getLongitude());
+//
+//			longitudeTextView.setText("" + currentLocation.getLongitude());
+//			latitudeTextView.setText("" + currentLocation.getLatitude());
+//		}
+//	}
 
 	/**
 	 * Initializes a SSID search in the handler
 	 * Update the (GUI) BSSID (MAC-address for the router)
 	 */
 	public void updateBSSID() {
-		wifiPositionHandler.scanForSSID();
 		if (wifiPositionHandler.getScanList() == null) {
 			Log.e("SCANRESULTS", "There are no scan results");
+			wifiPositionHandler.scanForSSID();
 		} else {
 			scanList = wifiPositionHandler.getScanList();
 			Log.e("SCANRESULTS", "Oh yeah");
@@ -100,9 +102,9 @@ public class WifiPositionActivity extends Activity {
 
 			Log.e("NetworkAndroidActivity", scanResult.BSSID + " "
 					+ scanResult.level);
+			ssidTextView.setText(scanResult.BSSID);
 		}
-		ssidTextView.setText("Level: " + scanResult.level + "BSSID: "
-				+ scanResult.BSSID);
+		
 	}
 
 	

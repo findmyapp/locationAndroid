@@ -8,7 +8,7 @@
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:icon="@drawable/is" android:label="@string/app_name">
     	<service android:name=".NetworkAndroidService" />
         <activity android:name=".WifiPositionActivity"
                   android:label="@string/app_name">
