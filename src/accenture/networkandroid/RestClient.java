@@ -13,7 +13,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,12 +21,9 @@ import com.google.gson.Gson;
 public class RestClient {
 
 	private String url = "http://localhost:8080/findmyapp/position/";
-	private Activity activity;
 	private Gson gson;
 
-	public RestClient(Activity activity) {
-		this.activity = activity;
-
+	public RestClient() {
 	}
 
 	private InputStream retrieveStream(String json) {
@@ -77,9 +73,9 @@ public class RestClient {
 
 		Reader reader = new InputStreamReader(source);
 		Room room = gson.fromJson(reader, Room.class);
-		Toast.makeText(activity,
-				room.getroomName() + " : " + room.getroomId(),
-				Toast.LENGTH_SHORT).show();
+//		Toast.makeText(activity,
+//				room.getroomName() + " : " + room.getroomId(),
+//				Toast.LENGTH_SHORT).show();
 		return room;
 	}
 	

@@ -2,6 +2,8 @@ package accenture.networkandroid;
 
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,8 +19,9 @@ import android.util.Log;
 
 /**
  * Position handler that scans and retrieves position related wifi information
+ * 
  * @author audun.sorheim, cecilie haugstvedt
- *
+ * 
  */
 
 public class WifiPositionHandler {
@@ -30,6 +33,7 @@ public class WifiPositionHandler {
 
 	public WifiPositionHandler(Activity a) {
 		this.activity = a;
+		scanList = null;
 		// Acquire a reference to the system Location Manager
 		locationManager = (LocationManager) activity
 				.getSystemService(Context.LOCATION_SERVICE);
@@ -51,11 +55,16 @@ public class WifiPositionHandler {
 			makeUseOfNewLocation(location);
 		}
 
-		public void onStatusChanged(String provider, int status, Bundle extras) {}
-		public void onProviderEnabled(String provider) {}
-		public void onProviderDisabled(String provider) {}
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
+
+		public void onProviderEnabled(String provider) {
+		}
+
+		public void onProviderDisabled(String provider) {
+		}
 	};
-	
+
 	public Location getCurrentLocation() {
 		return currentLocation;
 	}
@@ -71,8 +80,8 @@ public class WifiPositionHandler {
 		}
 
 	}
-	
-	//Scans for Wifi BSSIDs / Signal Strength
+
+	// Scans for Wifi BSSIDs / Signal Strength
 	public void scanForSSID() {
 		IntentFilter i = new IntentFilter();
 		i.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
@@ -98,6 +107,49 @@ public class WifiPositionHandler {
 	public Location getLocation() {
 		return currentLocation;
 	}
+
+	/**
+	 * Finds the current Room you are in
+	 * 
+	 * @return
+	 */
+	public Room getPosition() {
+		Room dummy = new Room(3, "Dummy Rom");
+//		RestClient restClient;
+
+		if (scanList == null) {
+			scanForSSID();
+		}
+		if (scanList != null) {
+			String json = writeListToJSON(scanList);
+//			restClient = new RestClient();
+//			currentRoom = restClient.getRoom(json);
+
+		}
+		return dummy;
+	}
 	
+	/**
+	 * Converts a list of scanResults to a json string
+	 * 
+	 * @param results
+	 *            The list of ScanResult
+	 * @return json-"string"
+	 */
+	public String writeListToJSON(List<ScanResult> results) {
+		Gson gson = new Gson();
+		if (scanList == null) {
+			scanForSSID();
+		}
+		Signal[] protocolArray = new Signal[scanList.size()];
+		int counter = 0;
+		for (ScanResult result : scanList) {
+			Signal protocol = new Signal(result.BSSID, result.level);
+			protocolArray[counter] = protocol;
+			counter++;
+		}
+		String json = gson.toJson(protocolArray);
+		return json;
+	}
 
 }

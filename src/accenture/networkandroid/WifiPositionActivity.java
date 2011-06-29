@@ -35,6 +35,7 @@ public class WifiPositionActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		scanList = null;
 
 		// Init GUI
 		longitudeTextView = (TextView) findViewById(R.id.editText1);
@@ -52,7 +53,13 @@ public class WifiPositionActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				getPosition();
+				Room currentRoom = wifiPositionHandler.getPosition();
+				if (currentRoom != null) {
+					printToScreen(currentRoom.getroomName() + " : "
+							+ currentRoom.getroomId());
+				} else {
+					printToScreen("No room found");
+				}
 			}
 		});
 		populatePositionDataButton
@@ -80,7 +87,8 @@ public class WifiPositionActivity extends Activity {
 	}
 
 	/**
-	 * Update the
+	 * Initializes a SSID search in the handler
+	 * Update the (GUI) BSSID (MAC-address for the router)
 	 */
 	public void updateBSSID() {
 		wifiPositionHandler.scanForSSID();
@@ -91,98 +99,41 @@ public class WifiPositionActivity extends Activity {
 			Log.e("SCANRESULTS", "Oh yeah");
 
 			scanResult = scanList.get(0);
-			int bestResult = scanList.get(0).level, currentResult = scanList
-					.get(0).level;
-			for (ScanResult result : scanList) {
-				currentResult = result.level;
-				if (currentResult > bestResult) {
-					bestResult = currentResult;
-					scanResult = result;
-				}
-				Log.e("NetworkAndroidActivity", result.BSSID + " "
-						+ result.level);
-			}
-			ssidTextView.setText("Level: " + scanResult.level + "BSSID: "
-					+ scanResult.BSSID);
+
+//			Log.e("NetworkAndroidActivity", scanResult.BSSID + " "
+//					+ scanResult.level);
 		}
+		ssidTextView.setText("Level: " + scanResult.level + "BSSID: "
+				+ scanResult.BSSID);
 	}
 
-	/**
-	 * Converts a list of scanResults to a json string
-	 * 
-	 * @param results
-	 *            The list of ScanResult
-	 * @return json-"string"
-	 */
-	public String writeListToJSON(List<ScanResult> results) {
-		Gson gson = new Gson();
-		if (scanList == null) {
-			updateBSSID();
-		}
-		Signal[] protocolArray = new Signal[scanList.size()];
-		int counter = 0;
-		for (ScanResult result : scanList) {
-			Signal protocol = new Signal(result.BSSID, result.level);
-			protocolArray[counter] = protocol;
-			counter++;
-		}
-		String json = gson.toJson(protocolArray);
-		return json;
-	}
-
-	/**
-	 * Finds the current Room you are in
-	 * 
-	 * @return
-	 */
-	public Room getPosition() {
-		Room currentRoom = null;
-		RestClient restClient;
-
-		if (scanList == null) {
-			updateLocation();
-			updateBSSID();
-		}
-
-		if (scanList != null) {
-			restClient = new RestClient(this);
-			String json = writeListToJSON(scanList);
-			currentRoom = restClient.getRoom(json);
-			if (currentRoom != null) {
-				printToScreen(currentRoom.getroomName() + " : "
-						+ currentRoom.getroomId());
-			}
-			else {
-				printToScreen("No room found");
-			}
-		}
-		return currentRoom;
-	}
-
-	/**
-	 * Deserialize a jsonSignal (string) to readable data in LogCat
-	 * 
-	 * @param jsonSignal
-	 */
-	public void readFromJSON(String jsonSignal) {
-		Gson gson = new Gson();
-		Signal[] signal = gson.fromJson(jsonSignal, Signal[].class);
-		for (int i = 0; i < signal.length; i++) {
-			Log.e("From JSON ",
-					signal[i].getBssid() + " " + signal[i].getSignalStrength());
-		}
-	}
-
-	/**
-	 * Tests writeListToJSON and readFromJSON
-	 */
-	public void testToFromJSON() {
-		String json = writeListToJSON(scanList);
-		readFromJSON(json);
-		Log.e("STRINGTEST", json);
-	}
-
+	
+	
 	public void printToScreen(String text) {
-		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-	}
+			Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+		}
+//	/**
+//	 * Deserialize a jsonSignal (string) to readable data in LogCat
+//	 * 
+//	 * @param jsonSignal
+//	 */
+//	public void readFromJSON(String jsonSignal) {
+//		Gson gson = new Gson();
+//		Signal[] signal = gson.fromJson(jsonSignal, Signal[].class);
+//		for (int i = 0; i < signal.length; i++) {
+//			Log.e("From JSON ",
+//					signal[i].getBssid() + " " + signal[i].getSignalStrength());
+//		}
+//	}
+
+//	/**
+//	 * Tests writeListToJSON and readFromJSON
+//	 */
+//	public void testToFromJSON() {
+//		String json = writeListToJSON(scanList);
+//		readFromJSON(json);
+//		Log.e("STRINGTEST", json);
+//	}
+
+	
 }
