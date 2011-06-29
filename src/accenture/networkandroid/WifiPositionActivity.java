@@ -38,11 +38,9 @@ public class WifiPositionActivity extends Activity {
 		scanList = null;
 
 		// Init GUI
-		longitudeTextView = (TextView) findViewById(R.id.editText1);
-		latitudeTextView = (TextView) findViewById(R.id.editText2);
-		ssidTextView = (TextView) findViewById(R.id.editText3);
-		populatePositionDataButton = (Button) findViewById(R.id.button1);
-		getCurrentRoomButton = (Button) findViewById(R.id.button2);
+		ssidTextView = (TextView) findViewById(R.id.bssid);
+		populatePositionDataButton = (Button) findViewById(R.id.populateLocationButton);
+		getCurrentRoomButton = (Button) findViewById(R.id.getRoomButton);
 
 		// Init Positionhandler and scan for ssid
 		wifiPositionHandler = new WifiPositionHandler(this);
@@ -65,7 +63,7 @@ public class WifiPositionActivity extends Activity {
 		populatePositionDataButton
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						updateLocation();
+						Log.e("KNAPPTEST", "Tester populate knapp");
 						updateBSSID();
 					}
 				});
@@ -100,8 +98,8 @@ public class WifiPositionActivity extends Activity {
 
 			scanResult = scanList.get(0);
 
-//			Log.e("NetworkAndroidActivity", scanResult.BSSID + " "
-//					+ scanResult.level);
+			Log.e("NetworkAndroidActivity", scanResult.BSSID + " "
+					+ scanResult.level);
 		}
 		ssidTextView.setText("Level: " + scanResult.level + "BSSID: "
 				+ scanResult.BSSID);

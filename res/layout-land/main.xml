@@ -3,11 +3,11 @@
 	android:layout_height="fill_parent"
 	android:layout_width="fill_parent" 
 	android:padding="15dip"
-	android:orientation="vertical">
+	android:orientation="horizontal">
 	<LinearLayout android:orientation="vertical"
 		android:layout_height="wrap_content" 
 		android:layout_width="fill_parent"
-		android:layout_gravity="top" 
+		android:layout_gravity="center" 
 		android:paddingLeft="20dip"
 		android:paddingRight="20dip">
 		<TextView android:text="@string/ssid"
@@ -20,20 +20,17 @@
 			android:layout_height="wrap_content" 
 			android:layout_width="match_parent" 
 			android:inputType="numberDecimal"/>
-			
 		
-		<TableLayout
+		<TableLayout android:layout_height="wrap_content"
 			android:layout_width="wrap_content" 
-			android:layout_height="match_parent"
 			android:layout_gravity="center"
-			android:gravity="bottom"
 			android:stretchColumns="*">
 			<TableRow>
 				<Button android:text="@string/populateLocationData" 
-						android:id="@+id/populateLocationButton" />
+						android:id="@+id/populateLocationButton" ></Button>
 				<Button android:text="@string/getRoom" 
 						android:id="@+id/getRoomButton"  />
 			</TableRow>
 		</TableLayout>
-		</LinearLayout>
+	</LinearLayout>
 </LinearLayout>
