@@ -23,13 +23,18 @@ import com.google.gson.Gson;
 
 public class WifiPositionActivity extends Activity {
 
-	private Button populatePositionDataButton, getCurrentRoomButton;
-	private TextView longitudeTextView, latitudeTextView, ssidTextView;
+	private String TAG = "WifiPositionActivity";
+	
+	private Button showBSSIDButton, getCurrentRoomButton, getRoomUsingEmulatorButton;
+	private TextView ssidTextView;
 	private ScanResult scanResult;
-	private Location currentLocation = null;
 	private WifiPositionHandler wifiPositionHandler;
 	private List<ScanResult> scanList;
 
+//	// Unused variables, used for finding latitude and longitude using LocationManager
+//	private TextView longitudeTextView, latitudeTextView;
+//	private Location currentLocation = null;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,38 +44,58 @@ public class WifiPositionActivity extends Activity {
 
 		// Init GUI
 		ssidTextView = (TextView) findViewById(R.id.bssid);
-		populatePositionDataButton = (Button) findViewById(R.id.populateLocationButton);
+		showBSSIDButton = (Button) findViewById(R.id.showBSSIDButton);
 		getCurrentRoomButton = (Button) findViewById(R.id.getRoomButton);
-
-		// Init Positionhandler and scan for ssid
+		getRoomUsingEmulatorButton = (Button) findViewById(R.id.getRoomOnEmulatorButton);
+		Log.e(TAG, "GUI initialized");
+		
+		// Initialize WIFI position handler and scan for BSSID
 		wifiPositionHandler = new WifiPositionHandler(this);
 		wifiPositionHandler.scanForSSID();
+		Log.e(TAG, "Started scanning for BSSIDs");
 
-		// Sets listener on buttons
+		// Set listeners on buttons
 		getCurrentRoomButton.setOnClickListener(new View.OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
+				Log.e(TAG, "Clicked on get room");
 				Room currentRoom = wifiPositionHandler.getPosition();
 				if (currentRoom != null) {
 					printToScreen(currentRoom.getroomName() + " : "
 							+ currentRoom.getroomId());
 				} else {
+					Log.e(TAG, "getPosition returned null");
 					printToScreen("No room found");
 				}
 			}
 		});
-		populatePositionDataButton
-		.setOnClickListener(new View.OnClickListener() {
+		showBSSIDButton.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
-				Log.e("KNAPPTEST", "Tester populate knapp");
+				Log.e(TAG, "Clicked on show BSSID");
 				updateBSSID();
 			}
 		});
+		getRoomUsingEmulatorButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.e(TAG, "Clicked on get room using emulator");
+				Room currentRoom = wifiPositionHandler.getPositionFromServer();
+				if (currentRoom != null) {
+					printToScreen(currentRoom.getroomName() + " : "
+							+ currentRoom.getroomId());
+				} else {
+					Log.e(TAG, "getPositionFromServer returned null");
+					printToScreen("No room found");
+				}
+				
+			}
+		});
+		Log.e(TAG, "Registered listeners on buttons");
 	}
 
 	//	/**
-	//	 * Gets latitude and longitude, and sets the non existing textviews.
+	//	 * Gets latitude and longitude, and sets the non existing text views.
 	//	 */
 	//	public void updateLocation() {
 	//		if (wifiPositionHandler.getCurrentLocation() == null) {
@@ -106,8 +131,6 @@ public class WifiPositionActivity extends Activity {
 		}
 
 	}
-
-
 
 	public void printToScreen(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();

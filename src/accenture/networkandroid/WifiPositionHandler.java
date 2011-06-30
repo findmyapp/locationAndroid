@@ -64,22 +64,35 @@ public class WifiPositionHandler {
 
 	/**
 	 * Finds the current Room you are in
-	 * 
+	 * Used for testing on phone until server si up and running
 	 * @return
 	 */
 	public Room getPosition() {
 		Room dummy = new Room(3, "Dummy Rom");
-		//		RestClient restClient;
-
 		if (scanList == null) {
 			scanForSSID();
 		}
 		if (scanList != null) {
 			String json = writeListToJSON(scanList);
-			//			restClient = new RestClient();
-			//			currentRoom = restClient.getRoom(json);
 		}
 		return dummy;
+	}
+
+	public Room getPositionFromServer() {
+		Room room = null;
+		RestClient restClient;
+		// scan for BSSID will not work on emulator, scanlist always null
+//		if (scanList == null) {
+//			scanForSSID();
+//		}
+//		if (scanList != null) {
+//			String json = writeListToJSON(scanList);
+//			restClient = new RestClient();
+//			room = restClient.getRoom(json);
+//		}
+		restClient = new RestClient();
+		room = restClient.getRoom("not used");
+		return room;
 	}
 
 	/**

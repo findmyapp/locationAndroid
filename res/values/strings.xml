@@ -4,6 +4,7 @@
     <string name="longitude">Longitude</string>
     <string name="latitude">Latitude</string>
     <string name="ssid">BSSID</string>
-    <string name="populateLocationData">Populate Data</string>
+    <string name="showBSSID">Show BSSID</string>
     <string name="getRoom">Get Room</string>
+    <string name="getRoomOnEmulator">Get Room On Emulator</string>
 </resources>

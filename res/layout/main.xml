@@ -31,10 +31,13 @@
 			android:gravity="bottom"
 			android:stretchColumns="*">
 			<TableRow>
-				<Button android:text="@string/populateLocationData" 
-						android:id="@+id/populateLocationButton" />
+				<Button android:text="@string/showBSSID" 
+						android:id="@+id/showBSSIDButton" />
 				<Button android:text="@string/getRoom" 
 						android:id="@+id/getRoomButton"  />
+			</TableRow>
+			<TableRow>
+				<Button android:text="@string/getRoomOnEmulator" android:id="@+id/getRoomOnEmulatorButton" />
 			</TableRow>
 		</TableLayout>
 		</LinearLayout>
