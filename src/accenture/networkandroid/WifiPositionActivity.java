@@ -3,10 +3,6 @@ package accenture.networkandroid;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.location.Location;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +12,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
 
 /**
  * Activity for position. Needs a position handler to have any use
@@ -29,7 +23,6 @@ import com.google.gson.Gson;
 public class WifiPositionActivity extends Activity {
 
 	private String TAG = "WifiPositionActivity";
-	static final int DIALOG_SHOWBSSIDLIST_ID = 0;
 	
 	private Button showBSSIDButton, getCurrentRoomButton, getRoomUsingEmulatorButton;
 	private TextView ssidTextView;
