@@ -61,30 +61,30 @@ public class WifiPositionActivity extends Activity {
 			}
 		});
 		populatePositionDataButton
-				.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
-						Log.e("KNAPPTEST", "Tester populate knapp");
-						updateBSSID();
-					}
-				});
+		.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Log.e("KNAPPTEST", "Tester populate knapp");
+				updateBSSID();
+			}
+		});
 	}
 
-//	/**
-//	 * Gets latitude and longitude, and sets the non existing textviews.
-//	 */
-//	public void updateLocation() {
-//		if (wifiPositionHandler.getCurrentLocation() == null) {
-//			Log.e("Location", "Location is null");
-//		} else {
-//			currentLocation = wifiPositionHandler.getCurrentLocation();
-//			Log.e("NetworkAndroidActivity",
-//					"Latitude: " + currentLocation.getLatitude()
-//							+ " Longitude: " + currentLocation.getLongitude());
-//
-//			longitudeTextView.setText("" + currentLocation.getLongitude());
-//			latitudeTextView.setText("" + currentLocation.getLatitude());
-//		}
-//	}
+	//	/**
+	//	 * Gets latitude and longitude, and sets the non existing textviews.
+	//	 */
+	//	public void updateLocation() {
+	//		if (wifiPositionHandler.getCurrentLocation() == null) {
+	//			Log.e("Location", "Location is null");
+	//		} else {
+	//			currentLocation = wifiPositionHandler.getCurrentLocation();
+	//			Log.e("NetworkAndroidActivity",
+	//					"Latitude: " + currentLocation.getLatitude()
+	//							+ " Longitude: " + currentLocation.getLongitude());
+	//
+	//			longitudeTextView.setText("" + currentLocation.getLongitude());
+	//			latitudeTextView.setText("" + currentLocation.getLatitude());
+	//		}
+	//	}
 
 	/**
 	 * Initializes a SSID search in the handler
@@ -104,36 +104,37 @@ public class WifiPositionActivity extends Activity {
 					+ scanResult.level);
 			ssidTextView.setText(scanResult.BSSID);
 		}
-		
+
 	}
 
-	
-	
+
+
 	public void printToScreen(String text) {
-			Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-		}
-//	/**
-//	 * Deserialize a jsonSignal (string) to readable data in LogCat
-//	 * 
-//	 * @param jsonSignal
-//	 */
-//	public void readFromJSON(String jsonSignal) {
-//		Gson gson = new Gson();
-//		Signal[] signal = gson.fromJson(jsonSignal, Signal[].class);
-//		for (int i = 0; i < signal.length; i++) {
-//			Log.e("From JSON ",
-//					signal[i].getBssid() + " " + signal[i].getSignalStrength());
-//		}
-//	}
-
-//	/**
-//	 * Tests writeListToJSON and readFromJSON
-//	 */
-//	public void testToFromJSON() {
-//		String json = writeListToJSON(scanList);
-//		readFromJSON(json);
-//		Log.e("STRINGTEST", json);
-//	}
-
+		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+	}
 	
+	//	/**
+	//	 * Deserialize a jsonSignal (string) to readable data in LogCat
+	//	 * 
+	//	 * @param jsonSignal
+	//	 */
+	//	public void readFromJSON(String jsonSignal) {
+	//		Gson gson = new Gson();
+	//		Signal[] signal = gson.fromJson(jsonSignal, Signal[].class);
+	//		for (int i = 0; i < signal.length; i++) {
+	//			Log.e("From JSON ",
+	//					signal[i].getBssid() + " " + signal[i].getSignalStrength());
+	//		}
+	//	}
+
+	//	/**
+	//	 * Tests writeListToJSON and readFromJSON
+	//	 */
+	//	public void testToFromJSON() {
+	//		String json = writeListToJSON(scanList);
+	//		readFromJSON(json);
+	//		Log.e("STRINGTEST", json);
+	//	}
+
+
 }

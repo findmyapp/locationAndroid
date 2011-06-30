@@ -44,14 +44,14 @@ public class WifiPositionHandler {
 				// Code to execute when SCAN_RESULTS_AVAILABLE_ACTION event
 				// occurs
 				WifiManager w = (WifiManager) c
-						.getSystemService(Context.WIFI_SERVICE);
+				.getSystemService(Context.WIFI_SERVICE);
 				scanList = w.getScanResults();
 			}
 		}, i);
 		// Now you can call this and it should execute the broadcastReceiver's
 		// onReceive()
 		WifiManager wm = (WifiManager) activity
-				.getSystemService(Context.WIFI_SERVICE);
+		.getSystemService(Context.WIFI_SERVICE);
 	}
 
 	public List<ScanResult> getScanList() {
@@ -69,19 +69,19 @@ public class WifiPositionHandler {
 	 */
 	public Room getPosition() {
 		Room dummy = new Room(3, "Dummy Rom");
-//		RestClient restClient;
+		//		RestClient restClient;
 
 		if (scanList == null) {
 			scanForSSID();
 		}
 		if (scanList != null) {
 			String json = writeListToJSON(scanList);
-//			restClient = new RestClient();
-//			currentRoom = restClient.getRoom(json);
+			//			restClient = new RestClient();
+			//			currentRoom = restClient.getRoom(json);
 		}
 		return dummy;
 	}
-	
+
 	/**
 	 * Converts a list of scanResults to a json string
 	 * 
