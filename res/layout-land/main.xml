@@ -1,29 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="fill_parent" android:layout_width="fill_parent"
-	android:background="@drawable/wallpaper_lake" android:padding="15dip"
-	android:orientation="horizontal">
-	<LinearLayout android:orientation="vertical"
-		android:layout_height="wrap_content" android:layout_width="fill_parent"
-		android:layout_gravity="center" android:paddingLeft="20dip"
-		android:paddingRight="20dip">
-		<TextView android:text="@string/ssid" android:layout_height="wrap_content"
-			android:layout_width="wrap_content" android:layout_gravity="center"
-			android:textColor="#000000" android:layout_marginBottom="20dip"
-			android:textSize="24.5sp" />
-		<EditText android:id="@+id/bssid" android:layout_height="wrap_content"
-			android:layout_width="match_parent" android:inputType="numberDecimal" />
 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" 
+	android:layout_width="fill_parent"
+	android:background="@drawable/wallpaper_lake" 
+	android:padding="15dip"
+	android:orientation="horizontal">
+	
+	<LinearLayout android:orientation="vertical"
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent"
+		android:layout_gravity="center" 
+		android:paddingLeft="20dip"
+		android:paddingRight="20dip">
+		
+		<TextView android:text="@string/ssid" 
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content" 
+			android:layout_gravity="center"
+			android:textColor="#000000" 
+			android:layout_marginBottom="20dip"
+			android:textSize="24.5sp" />
+			
+		<EditText android:id="@+id/bssid" 
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent" 
+			android:inputType="numberDecimal" />
+			
+		<Spinner android:id="@+id/bssidspinner" 
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+			
 		<TableLayout android:layout_height="wrap_content"
-			android:layout_width="wrap_content" android:layout_gravity="center"
+			android:layout_width="wrap_content" 
+			android:layout_gravity="center"
 			android:stretchColumns="*">
+			
 			<TableRow>
-				<Button android:text="@string/showBSSID" android:id="@+id/showBSSIDButton" />
-				<Button android:text="@string/getRoom" android:id="@+id/getRoomButton" />
+			
+				<Button android:text="@string/showBSSID" 
+					android:id="@+id/showBSSIDButton" />
+					
+				<Button android:text="@string/getRoom" 
+					android:id="@+id/getRoomButton" />
+					
 			</TableRow>
+			
 			<TableRow>
-				<Button android:text="@string/getRoomOnEmulator" android:id="@+id/getRoomOnEmulatorButton" />
+			
+				<Button android:text="@string/getRoomOnEmulator" 
+					android:id="@+id/getRoomOnEmulatorButton" />
+					
 			</TableRow>
+			
 		</TableLayout>
+		
 	</LinearLayout>
+	
 </LinearLayout>

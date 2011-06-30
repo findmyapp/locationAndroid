@@ -82,16 +82,19 @@ public class WifiPositionHandler {
 		Room room = null;
 		RestClient restClient;
 		// scan for BSSID will not work on emulator, scanlist always null
-//		if (scanList == null) {
-//			scanForSSID();
-//		}
-//		if (scanList != null) {
-//			String json = writeListToJSON(scanList);
-//			restClient = new RestClient();
-//			room = restClient.getRoom(json);
-//		}
-		restClient = new RestClient();
-		room = restClient.getRoom("not used");
+		//		if (scanList == null) {
+		//			scanForSSID();
+		//		}
+		//		if (scanList != null) {
+		//			String json = writeListToJSON(scanList);
+		//			restClient = new RestClient();
+		//			room = restClient.getRoom(json);
+		//		}
+		if (scanList == null){
+			restClient = new RestClient();
+			room = restClient.getRoom("not used");
+		}
+
 		return room;
 	}
 
