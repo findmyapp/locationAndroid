@@ -35,25 +35,25 @@ public class LocationHandler {
 	// Define a listener that responds to location updates
 	LocationListener locationListener = new LocationListener() {
 
-//		@Override
+		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			// TODO Auto-generated method stub
 
 		}
 
-//		@Override
+		@Override
 		public void onProviderEnabled(String provider) {
 			// TODO Auto-generated method stub
 
 		}
 
-//		@Override
+		@Override
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub
 
 		}
 
-//		@Override
+		@Override
 		public void onLocationChanged(Location location) {
 			makeUseOfNewLocation(location);		
 		}

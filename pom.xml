@@ -8,10 +8,6 @@
 	<packaging>apk</packaging>
 	<name>UKA Android location app</name>
 
-	<properties>
-		<platform>8</platform>
-	</properties>
-
 	<repositories>
 		<repository>
 			<name>central</name>
@@ -47,7 +43,7 @@
 					<resourceDirectory>${project.basedir}/res</resourceDirectory>
 					<nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
 					<sdk>
-						<platform>${platform}</platform>
+						<platform>8</platform>
 						<path>C:\Program Files (x86)\Android\android-sdk</path>
 					</sdk>
 					<deleteConflictingFiles>true</deleteConflictingFiles>

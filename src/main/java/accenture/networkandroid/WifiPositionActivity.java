@@ -60,7 +60,7 @@ public class WifiPositionActivity extends Activity {
 
 		// Set listeners on buttons
 		getCurrentRoomButton.setOnClickListener(new View.OnClickListener() {
-//			@Override
+			@Override
 			public void onClick(View v) {
 				Log.e(TAG, "Clicked on get room");
 				Room currentRoom = wifiPositionHandler.getPosition();
@@ -74,14 +74,14 @@ public class WifiPositionActivity extends Activity {
 			}
 		});
 		showBSSIDButton.setOnClickListener(new View.OnClickListener() {
-//			@Override
+			@Override
 			public void onClick(View v) {
 				Log.e(TAG, "Clicked on show BSSID");
 				updateBSSID();
 			}
 		});
 		getRoomUsingEmulatorButton.setOnClickListener(new View.OnClickListener() {
-//			@Override
+			@Override
 			public void onClick(View v) {
 				Log.e(TAG, "Clicked on get room using emulator");
 				Room currentRoom = wifiPositionHandler.getPositionFromServer();
