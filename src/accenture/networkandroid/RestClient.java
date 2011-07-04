@@ -21,10 +21,12 @@ import com.google.gson.JsonParser;
 
 public class RestClient {
 
-	private String url = "http://10.0.2.2:8080/findmyapp/position/"; // localhost on emulator
+	//private String url = "http://10.0.2.2:8080/findmyapp/position/"; // localhost on emulator
+	private String url = "http://findmyapp.net/findmyapp/position/"; 
 	private Gson gson;
 
 	public RestClient() {
+		Log.e(getClass().getSimpleName(), "RestClient created");
 	}
 
 	private InputStream retrieveStream(String json) {
@@ -44,10 +46,10 @@ public class RestClient {
 		}
 
 		try {
-
+			
 			HttpResponse getResponse = client.execute(request);
 			final int statusCode = getResponse.getStatusLine().getStatusCode();
-
+			Log.e(getClass().getSimpleName(), "Got back status code:" + statusCode);
 			if (statusCode != HttpStatus.SC_OK) { 
 				Log.e(getClass().getSimpleName(), 
 						"Error " + statusCode + " for URL " + url); 
@@ -70,7 +72,7 @@ public class RestClient {
 	public Room getRoom(String json){
 		
 		Room room = null;
-		json = getSampleData(); //for testing
+		//json = getSampleData(); //for testing
 		InputStream source = retrieveStream(json);
 
 		Gson gson = new Gson();

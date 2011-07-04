@@ -3,6 +3,7 @@ package accenture.networkandroid;
 import java.util.List;
 
 import android.app.Activity;
+import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,7 @@ public class WifiPositionActivity extends Activity {
 
 	private String TAG = "WifiPositionActivity";
 	
+	private LocationHandler locationHandler;
 	private Button showBSSIDButton, getCurrentRoomButton, getRoomUsingEmulatorButton;
 	private TextView ssidTextView;
 	private Spinner bssidSpinner;
@@ -41,7 +43,8 @@ public class WifiPositionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		scanList = null;
-
+		locationHandler = new LocationHandler(this); // needed to start scan for BSSIDs automatically
+		
 		// Init GUI
 		bssidSpinner = (Spinner) findViewById(R.id.bssidspinner);
 		ssidTextView = (TextView) findViewById(R.id.bssid);

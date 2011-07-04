@@ -29,6 +29,7 @@ public class WifiPositionHandler {
 	private Location currentLocation;
 	private Activity activity;
 	private List<ScanResult> scanList;
+	private RestClient restClient;
 
 	public WifiPositionHandler(Activity a) {
 		this.activity = a;
@@ -52,6 +53,7 @@ public class WifiPositionHandler {
 		// onReceive()
 		WifiManager wm = (WifiManager) activity
 		.getSystemService(Context.WIFI_SERVICE);
+		restClient = new RestClient();
 	}
 
 	public List<ScanResult> getScanList() {
@@ -80,19 +82,12 @@ public class WifiPositionHandler {
 
 	public Room getPositionFromServer() {
 		Room room = null;
-		RestClient restClient;
-		// scan for BSSID will not work on emulator, scanlist always null
-		//		if (scanList == null) {
-		//			scanForSSID();
-		//		}
-		//		if (scanList != null) {
-		//			String json = writeListToJSON(scanList);
-		//			restClient = new RestClient();
-		//			room = restClient.getRoom(json);
-		//		}
-		if (scanList == null){
-			restClient = new RestClient();
-			room = restClient.getRoom("not used");
+		if (scanList == null) {
+			scanForSSID();
+		}
+		if (scanList != null) {
+			String json = writeListToJSON(scanList);
+			room = restClient.getRoom(json);
 		}
 
 		return room;
