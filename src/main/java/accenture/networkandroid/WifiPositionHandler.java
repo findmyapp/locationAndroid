@@ -26,7 +26,7 @@ import android.util.Log;
 
 public class WifiPositionHandler {
 
-	private Location currentLocation;
+	private accenture.networkandroid.Location currentLocation;
 	private Activity activity;
 	private List<ScanResult> scanList;
 	private RestClient restClient;
@@ -60,7 +60,7 @@ public class WifiPositionHandler {
 		return scanList;
 	}
 
-	public Location getLocation() {
+	public accenture.networkandroid.Location getCurrentLocation() {
 		return currentLocation;
 	}
 
@@ -69,8 +69,8 @@ public class WifiPositionHandler {
 	 * Used for testing on phone until server si up and running
 	 * @return
 	 */
-	public Room getPosition() {
-		Room dummy = new Room(3, "Dummy Rom");
+	public accenture.networkandroid.Location getLocation() {
+		accenture.networkandroid.Location dummy = new accenture.networkandroid.Location(3, "Dummy Rom");
 		if (scanList == null) {
 			scanForSSID();
 		}
@@ -80,17 +80,17 @@ public class WifiPositionHandler {
 		return dummy;
 	}
 
-	public Room getPositionFromServer() {
-		Room room = null;
+	public accenture.networkandroid.Location getPositionFromServer() {
+		accenture.networkandroid.Location location = null;
 		if (scanList == null) {
 			scanForSSID();
 		}
 		if (scanList != null) {
 			String json = writeListToJSON(scanList);
-			room = restClient.getRoom(json);
+			location = restClient.getRoom(json);
 		}
 
-		return room;
+		return location;
 	}
 
 	/**

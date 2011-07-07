@@ -63,10 +63,10 @@ public class WifiPositionActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Log.e(TAG, "Clicked on get room");
-				Room currentRoom = wifiPositionHandler.getPosition();
-				if (currentRoom != null) {
-					printToScreen(currentRoom.getroomName() + " : "
-							+ currentRoom.getroomId());
+				accenture.networkandroid.Location currentLocation = wifiPositionHandler.getCurrentLocation();
+				if (currentLocation != null) {
+					printToScreen(currentLocation.getlocationName() + " : "
+							+ currentLocation.getlocationId());
 				} else {
 					Log.e(TAG, "getPosition returned null");
 					printToScreen("No room found");
@@ -84,10 +84,10 @@ public class WifiPositionActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Log.e(TAG, "Clicked on get room using emulator");
-				Room currentRoom = wifiPositionHandler.getPositionFromServer();
-				if (currentRoom != null) {
-					printToScreen(currentRoom.getroomName() + " : "
-							+ currentRoom.getroomId());
+				Location currentLocation = wifiPositionHandler.getPositionFromServer();
+				if (currentLocation != null) {
+					printToScreen(currentLocation.getlocationName() + " : "
+							+ currentLocation.getlocationId());
 				} else {
 					Log.e(TAG, "getPositionFromServer returned null");
 					printToScreen("No room found");

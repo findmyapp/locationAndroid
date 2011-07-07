@@ -22,7 +22,7 @@ import com.google.gson.JsonParser;
 public class RestClient {
 
 	//private String url = "http://10.0.2.2:8080/findmyapp/position/"; // localhost on emulator
-	private String url = "http://findmyapp.net/findmyapp/position/"; 
+	private String url = "http://findmyapp.net/findmyapp/location";
 	private Gson gson;
 
 	public RestClient() {
@@ -69,9 +69,9 @@ public class RestClient {
 
 	}
 
-	public Room getRoom(String json){
+	public Location getRoom(String json){
 		
-		Room room = null;
+		Location room = null;
 		//json = getSampleData(); //for testing
 		InputStream source = retrieveStream(json);
 
@@ -82,7 +82,7 @@ public class RestClient {
 			
 			JsonParser parser = new JsonParser();
 			JsonElement jsonElement = parser.parse(reader);
-			room = gson.fromJson(jsonElement.getAsJsonObject().get("room"), Room.class);
+			room = gson.fromJson(jsonElement.getAsJsonObject().get("room"), Location.class);
 			
 			if(room == null) {
 				Log.e(getClass().getSimpleName(), "Cannot parse json to room :(");
@@ -95,8 +95,8 @@ public class RestClient {
 		return room;
 	}
 	
-	public Room deserializeRoom(String jsonRoom) {
-		Room room = gson.fromJson(jsonRoom, Room.class);
+	public Location deserializeRoom(String jsonRoom) {
+		Location room = gson.fromJson(jsonRoom, Location.class);
 		return room;
 	}
 	
